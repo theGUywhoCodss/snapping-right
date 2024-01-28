@@ -6,4 +6,6 @@ extern int playerWidth;
 extern int playerHeight;
 void drawCharacter();
 void ctrlCharacter(Vector2 offset);
+void updatePlayerSound();
+void updatePlayerPathfinding();
 #endif
