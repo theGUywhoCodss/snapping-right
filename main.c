@@ -27,6 +27,8 @@
 #include "lidar.h"
 #include "sound.h"
 #include "texture.h"
+#include "enemy.h"
+#include "node.h"
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
 #endif
@@ -43,16 +45,19 @@ static void UpdateDrawFrame(void);          // Update and draw one frame
 //----------------------------------------------------------------------------------
 int main()
 {
-    // Initialization
+    // Initialization5
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 600;
-    const int screenHeight = 600;
+    const int screenWidth = 1000;
+    const int screenHeight = 800;
     InitWindow(screenWidth, screenHeight, "Snapping Right");
     InitAudioDevice();
     loadMap();
     defineMusicStream("resources/jovial.wav");
     defineSound("resources/footstep.wav",0);
     saveTexture("images/character.png",0,5);
+    Vector2 nodeMapSize=getRelativeMapSize();
+    generateNodes(nodeMapSize);
+    nodeMapper(nodeMapSize);
     //--------------------------------------------------------------------------------------
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 60, 1);
@@ -83,10 +88,14 @@ static void UpdateDrawFrame(void){
     updateMusic();
     Vector2 offset = (Vector2){-playerX+GetScreenWidth()/2-playerWidth/2,-playerY+GetScreenHeight()/2-playerHeight/2};
     ctrlCharacter(offset);
+    updatePlayerSound();
+    updatePlayerPathfinding();
     BeginDrawing();
         ClearBackground(BLACK);
+        updateEnemy(offset);
         DrawFPS(0,0);
         drawPoints(offset);
+        drawNodes(offset);
         drawCharacter();
         drawMap(offset);
     EndDrawing();
