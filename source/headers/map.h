@@ -6,6 +6,4 @@ void loadMap(void);
 void addPing(Vector2 area);
 extern Rectangle blocks[10];
 extern int blockAmount;
-Rectangle verticalC(Rectangle rect);
-Rectangle horizontalC(Rectangle rect);
 #endif
