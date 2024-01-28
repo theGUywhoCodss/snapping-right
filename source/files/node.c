@@ -19,7 +19,7 @@ struct node
 static struct node nodes[100];
 static int nodeArrSize=100;
 static int nodesInit=0;
-static Vector2 nodeSize=(Vector2){75,75};
+static Vector2 nodeSize=(Vector2){100,100};
 static Vector2 nodeDrawSize=(Vector2){25,25};
 static int rowSize;
 static int start=10;
@@ -37,9 +37,21 @@ static void makeProcessed(int currentNode);
 static void drawNodeInformation(int currentNode,Vector2 rect);
 static void setNodeInformation(int currentNode);
 static Vector2 NodeDistence(int node1,int node2);
+void nodeSetterXY(int node,bool mode);
+int getNodeXY(int x,int y);
+void unaliveNode(int node);
 //----------------------------------------------------------------------------------
 // Definitions
 //----------------------------------------------------------------------------------
+//resets nodes to pathfind again
+static void resetNodes(){
+    for(int i=0;i<nodesInit;i++){
+        nodes[i].search=false;
+        nodes[i].processed=false;
+        nodes[i].efficient=false;
+    }
+    makeProcessed(start);
+}
 static int nodeRequest(int x,int y,int currentNode){
     int node=currentNode;
     int rowPos=currentNode%rowSize;
@@ -49,21 +61,42 @@ static int nodeRequest(int x,int y,int currentNode){
     }
     return node;
 }
-void runNodes(){
-    int recentNode=-1;
-    while (recentNode!=goal){
-        recentNode=processBestNode();
+//get node with basic x y
+int getNodeXY(int x,int y){
+    return rowSize*y+x;
+}
+//make node non-viable
+void unaliveNode(int node){
+    nodes[node].alive=false;
+}
+//Modes = 0 : start, 1 : goal
+void nodeSetterXY(int node,bool mode){
+    if(!mode){
+        start=node;
+    }else if(mode==1){
+        goal=node;
     }
+}
+void runNodes(){
+    resetNodes();
+    int recentNode=-1;
+    int count=0;
+    nodes[goal].efficient=true;
+    while (recentNode!=goal&&count<100){
+        recentNode=processBestNode();
+        count++;
+    }
+    if(count==100)return;
     //get most effient route by tracking back
     recentNode=goal;
-    int count=0;
+    count=0;
     while (recentNode!=start&&count<100){
         int bestPNode=0;
         int bestG=10000;
         for(int i=0;i<4;i++){
             int closestNode=nodes[recentNode].closest[i];
             if(nodes[closestNode].processed&&nodes[closestNode].g<bestG&&
-            !nodes[closestNode].efficient){
+            !nodes[closestNode].efficient&&closestNode>=0){
                 bestPNode=closestNode;
                 bestG=nodes[closestNode].g;
             }
@@ -83,7 +116,6 @@ void generateNodes(Vector2 scrDimensions){
                 int testOffset=50;
                 nodes[currentNode].rect=(Vector2){i*nodeSize.x+testOffset,u*nodeSize.y+testOffset};
                 nodes[currentNode].alive=true;
-                if(realPos>12&&realPos<20)nodes[currentNode].alive=false;
                 currentNode++;
                 nodesInit++;
             }
@@ -92,12 +124,15 @@ void generateNodes(Vector2 scrDimensions){
     closestNodes();
     makeProcessed(start);
 }
-void drawNodes(){
+void drawNodes(Vector2 offset){
     for(int i=0;i<nodesInit;i++){
         Color nodeColor=RED;
         Vector2 rect= nodes[i].rect;
-        if(nodes[i].efficient)nodeColor=YELLOW;
+        rect.x+=offset.x;
+        rect.y+=offset.y;
         if(!nodes[i].alive)nodeColor=LIGHTGRAY;
+        if(nodes[i].processed)nodeColor=GREEN;
+        if(nodes[i].efficient)nodeColor=YELLOW;
         if(i==goal)nodeColor=ORANGE;
         rect.x-=nodeDrawSize.x/2;
         rect.y-=nodeDrawSize.y/2;
@@ -147,7 +182,7 @@ static void makeProcessed(int currentNode){
     if(nodes[currentNode].search)nodes[currentNode].search=false;
     for(int i=0;i<4;i++){
         int closestNode=nodes[currentNode].closest[i];
-        if(!nodes[closestNode].processed&&!nodes[closestNode].search){
+        if(!nodes[closestNode].processed&&!nodes[closestNode].search&&nodes[closestNode].alive){
             nodes[closestNode].search=true;
             setNodeInformation(nodes[currentNode].closest[i]);
         }
