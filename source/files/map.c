@@ -24,8 +24,6 @@ void loadMap();
 void drawMap(Vector2 offset);
 void addPing(Vector2 area);
 static void drawPing(Vector2 offset);
-Rectangle verticalC(Rectangle rect);
-Rectangle horizontalC(Rectangle rect);
 //----------------------------------------------------------------------------------
 // Definitions
 //----------------------------------------------------------------------------------
