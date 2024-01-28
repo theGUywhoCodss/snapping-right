@@ -3,11 +3,12 @@
 #include "collision.h"
 #include "mapData.h"
 #include "character.h"
+#include "node.h"
 // nonstatic
 Rectangle blocks[100];
 int blockAmount=100;
 // static
-static int current=0;
+static int current=1;
 static bool col[4];
 static Rectangle pingies[3];
 static int pingSize=200;
@@ -22,11 +23,32 @@ static bool col[4];
 //----------------------------------------------------------------------------------
 void loadMap();
 void drawMap(Vector2 offset);
+void nodeMapper(Vector2 nodeMapSize);
 void addPing(Vector2 area);
+Vector2 getRelativeMapSize();
 static void drawPing(Vector2 offset);
 //----------------------------------------------------------------------------------
 // Definitions
 //----------------------------------------------------------------------------------
+//Gets the map size with blocks.
+Vector2 getRelativeMapSize(){
+    Vector2 bestSize;
+    for(int i=0;i<blockAmount;i++){
+        if(blocks[i].x+blocks[i].width>bestSize.x)bestSize.x=blocks[i].x+blocks[i].width;
+        if(blocks[i].y+blocks[i].height>bestSize.y)bestSize.y=blocks[i].y+blocks[i].height;
+    }
+    return bestSize;
+}
+//Makes unalive nodes for blocks.
+void nodeMapper(Vector2 nodeMapSize){
+    for(int i=0;i<blockAmount;i++){
+        if(blocks[i].x<nodeMapSize.x&&blocks[i].y<nodeMapSize.y){
+            for(int x=0;x<blocks[i].width/blockWidth;x++){
+                unaliveNode(getNodeXY((100*x+blocks[i].x)/100,blocks[i].y/100));
+            }
+        }
+    }
+}
 void loadMap(){
     int loadPos=0;
     int blockSize=0;
