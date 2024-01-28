@@ -18,7 +18,8 @@
 		"typeinfo": "c",
 		"array": "c",
 		"collision.h": "c",
-		"character.h": "c"
+		"character.h": "c",
+		"sound.h": "c"
 	},
 	"workbench.colorCustomizations": {
 		"activityBar.activeBackground": "#2f7c47",
