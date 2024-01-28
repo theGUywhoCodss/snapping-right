@@ -28,7 +28,7 @@ static bool plotPoint(double angle){
             pointFound=true;
         }
     }
-
+    return pointFound;
 }
 void newPoint(Vector2 pos,Vector2 clickpos){
     double angle = angle2Points(pos.x,pos.y,clickpos.x,clickpos.y);
