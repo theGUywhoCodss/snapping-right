@@ -4,6 +4,7 @@
 #include "lidar.h"
 #include "sound.h"
 #include "texture.h"
+#include "node.h"
 double min(double a, double b) {
     return a<b ? a : b;
 }
@@ -25,6 +26,7 @@ static bool jumping=true;
 static float friction=0.30f;
 static float accSpeed=0.90f;
 static bool col[4];
+static Vector2 lastNode;
 //----------------------------------------------------------------------------------
 // Local Functions Declaration
 //----------------------------------------------------------------------------------
@@ -39,6 +41,16 @@ static Rectangle playerRect();
 //----------------------------------------------------------------------------------
 // Definitions
 //----------------------------------------------------------------------------------
+void updatePlayerSound(){
+   if(change.x>.01||change.x<-.01)soundProperties(0,2);
+   else soundProperties(0,0);
+}
+void updatePlayerPathfinding(){
+   if(lastNode.x!=playerX/100||lastNode.y!=playerX/100){
+      nodeSetterXY(getNodeXY(playerX/100,playerY/100),1);
+      runNodes();
+   }
+}
 void drawCharacter(){
    DrawTexture(getTexture(0),GetScreenWidth()/2-playerWidth/2,GetScreenHeight()/2-playerHeight/2,RAYWHITE);
    //DrawRectangle(GetScreenWidth()/2-playerWidth/2,GetScreenHeight()/2-playerHeight/2,playerWidth,playerHeight,BROWN);
@@ -104,8 +116,6 @@ void ctrlCharacter(Vector2 offset){
    change.y+=velo.y*jumpSpeed+gravity*GetFrameTime();
    playerY+=change.y;
    verticalC();
-   if(change.x>.01||change.x<-.01)soundProperties(0,2);
-   else soundProperties(0,0);
    /*DrawText(TextFormat("%f",change.x<0?max(-playerSpeed,productx):min(playerSpeed,productx)),50,0,10,RED);
    DrawText(TextFormat("%f",change.y),50,10,10,RED);*/
 }
