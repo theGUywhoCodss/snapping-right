@@ -2,10 +2,13 @@
 #include "trig.h"
 #include "character.h"
 #include "map.h"
+#include "node.h"
 struct enemy{
     float x;
     float y;
     int health;
+    int path[10];
+    int currentNode;
 };
 //----------------------------------------------------------------------------------
 // Local Variables Definition (local to this module)
@@ -28,9 +31,24 @@ void updateEnemy(Vector2 offset);
 bool harmCheck(Rectangle rect,int damage);
 int attackCheck(Rectangle rect);
 void resetEnemies();
+void resetEnemyPathfinding();
 //----------------------------------------------------------------------------------
 // Definitions
 //----------------------------------------------------------------------------------
+//resets enemy path with new character position.
+void resetEnemyPathfinding(){
+    for(int i=0;i<enemyArrSize;i++){
+        if(enemies[i].health>0){
+            enemies[i].currentNode=0;
+            int enemyx=enemies[i].x/100;
+            int enemyy=enemies[i].y/100;
+            for(int x=0;x<10;x++){
+                enemies[i].path[x]=0;
+            }
+            runNodes(getNodeXY(enemyx,enemyy),getNodeXY(playerX/100,playerY/100),10,enemies[i].path);
+        }
+    }
+}
 static Rectangle enemyRect(int pos){
     return (Rectangle){enemies[pos].x,enemies[pos].y,enemySize.x,enemySize.y};
 }
@@ -42,11 +60,21 @@ void resetEnemies(){
 void updateEnemy(Vector2 offset){
     for(int i=0;i<enemyArrSize;i++){
         if(enemies[i].health>0){
-            double angle = angle2Points(enemies[i].x,enemies[i].y,playerX,playerY);
-            enemies[i].x+=calcCos(speed,angle)*GetFrameTime();
-            //enemies[i].x=horizontalC(enemyRect(i)).x;
-            enemies[i].y+=calcSin(speed,angle)*GetFrameTime();
-            //enemies[i].y=verticalC(enemyRect(i)).y;
+            if(enemies[i].currentNode<10&&enemies[i].path[enemies[i].currentNode]>0){
+                Vector2 nodePos=getNodePos(enemies[i].path[enemies[i].currentNode]);
+                double angle = angle2Points(enemies[i].x,enemies[i].y,nodePos.x,nodePos.y);
+                enemies[i].x+=calcCos(speed,angle)*GetFrameTime();
+                //enemies[i].x=horizontalC(enemyRect(i)).x;
+                enemies[i].y+=calcSin(speed,angle)*GetFrameTime();
+                //enemies[i].y=verticalC(enemyRect(i)).y;
+                int enemyNode=getNodeXY(enemies[i].x/100,enemies[i].y/100);
+                if(enemyNode==enemies[i].path[enemies[i].currentNode]){
+                    enemies[i].currentNode++;
+                }
+            }
+            for(int x=0;x<10;x++){
+                DrawText(TextFormat("%d",enemies[i].path[x]),10,10*x,10,RED);
+            }
             DrawRectangle(enemies[i].x+offset.x,enemies[i].y+offset.y,enemySize.x,enemySize.y,GREEN);
         }
     }

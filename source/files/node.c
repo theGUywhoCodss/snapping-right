@@ -23,13 +23,13 @@ static Vector2 nodeSize=(Vector2){100,100};
 static Vector2 nodeDrawSize=(Vector2){25,25};
 static int rowSize;
 static int start=10;
+int newNodes[10];
 static int goal=49;
 //----------------------------------------------------------------------------------
 // Local Functions Declaration
 //----------------------------------------------------------------------------------
 void generateNodes(Vector2 scrDimensions);
-void drawNodes();
-void runNodes();
+int* runNodes(int customStart,int customGoal,int range,int* returnNodes);
 static void closestNodes();
 static int processBestNode();
 static int nodeRequest(int x,int y,int currentNode);
@@ -37,8 +37,8 @@ static void makeProcessed(int currentNode);
 static void drawNodeInformation(int currentNode,Vector2 rect);
 static void setNodeInformation(int currentNode);
 static Vector2 NodeDistence(int node1,int node2);
-void nodeSetterXY(int node,bool mode);
 int getNodeXY(int x,int y);
+Vector2 getNodePos(int node);
 void unaliveNode(int node);
 //----------------------------------------------------------------------------------
 // Definitions
@@ -61,6 +61,10 @@ static int nodeRequest(int x,int y,int currentNode){
     }
     return node;
 }
+//Gets the get x y from node
+Vector2 getNodePos(int node){
+    return nodes[node].rect;
+}
 //get node with basic x y
 int getNodeXY(int x,int y){
     return rowSize*y+x;
@@ -69,16 +73,14 @@ int getNodeXY(int x,int y){
 void unaliveNode(int node){
     nodes[node].alive=false;
 }
-//Modes = 0 : start, 1 : goal
-void nodeSetterXY(int node,bool mode){
-    if(!mode){
-        start=node;
-    }else if(mode==1){
-        goal=node;
-    }
-}
-void runNodes(){
+// Runs nodes to find best path. Returns array.
+int* runNodes(int customStart,int customGoal,int range,int* returnNodes){
     resetNodes();
+    for(int i=0;i<10;i++){
+        newNodes[i]=0;
+    }
+    start=customStart;
+    goal=customGoal;
     int recentNode=-1;
     int count=0;
     nodes[goal].efficient=true;
@@ -90,7 +92,7 @@ void runNodes(){
     //get most effient route by tracking back
     recentNode=goal;
     count=0;
-    while (recentNode!=start&&count<100){
+    while (recentNode!=start&&count<range){
         int bestPNode=0;
         int bestG=10000;
         for(int i=0;i<4;i++){
@@ -101,17 +103,29 @@ void runNodes(){
                 bestG=nodes[closestNode].g;
             }
         }
+        if(bestPNode==start)break;
         nodes[bestPNode].efficient=true;
+        newNodes[count]=bestPNode;
         recentNode=bestPNode;
         count++;
     }
+    //flip list
+    count=0;
+    
+    for(int i=range-1;i>=0;i--){
+        if(newNodes[i]!=0){
+            returnNodes[count]=newNodes[i];
+            count++;
+        }
+    }
+    return returnNodes;
 }
 void generateNodes(Vector2 scrDimensions){
     int currentNode=0;
     rowSize=scrDimensions.x/nodeSize.x;
     for(int u=0;u<scrDimensions.y/nodeSize.y;u++){
         for(int i=0;i<scrDimensions.x/nodeSize.x;i++){
-            int realPos=i+u*(scrDimensions.x/nodeSize.x);
+            //int realPos=i+u*(scrDimensions.x/nodeSize.x);
             if(currentNode<nodeArrSize){
                 int testOffset=50;
                 nodes[currentNode].rect=(Vector2){i*nodeSize.x+testOffset,u*nodeSize.y+testOffset};

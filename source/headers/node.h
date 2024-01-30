@@ -1,9 +1,8 @@
 #ifndef NODE_H
 #define NODE_H
 void generateNodes(Vector2 scrDimensions);
-void drawNodes();
-void runNodes();
-void nodeSetterXY(int node,bool mode);
+int* runNodes(int customStart,int customGoal,int range,int* returnNodes);
 int getNodeXY(int x,int y);
+Vector2 getNodePos(int node);
 void unaliveNode(int node);
 #endif
