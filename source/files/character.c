@@ -4,7 +4,7 @@
 #include "lidar.h"
 #include "sound.h"
 #include "texture.h"
-#include "node.h"
+#include "enemy.h"
 double min(double a, double b) {
     return a<b ? a : b;
 }
@@ -47,8 +47,11 @@ void updatePlayerSound(){
 }
 void updatePlayerPathfinding(){
    if(lastNode.x!=playerX/100||lastNode.y!=playerX/100){
-      nodeSetterXY(getNodeXY(playerX/100,playerY/100),1);
-      runNodes();
+      resetEnemyPathfinding();
+      lastNode.x=playerX/100;
+      lastNode.y=playerY/100;
+      //nodeSetterXY(getNodeXY(playerX/100,playerY/100),1);
+      //runNodes();
    }
 }
 void drawCharacter(){

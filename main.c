@@ -58,6 +58,8 @@ int main()
     Vector2 nodeMapSize=getRelativeMapSize();
     generateNodes(nodeMapSize);
     nodeMapper(nodeMapSize);
+    newEnemy((Vector2){0,0});
+    resetEnemyPathfinding();
     //--------------------------------------------------------------------------------------
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 60, 1);
@@ -95,7 +97,6 @@ static void UpdateDrawFrame(void){
         updateEnemy(offset);
         DrawFPS(0,0);
         drawPoints(offset);
-        drawNodes(offset);
         drawCharacter();
         drawMap(offset);
     EndDrawing();
