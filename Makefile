@@ -347,8 +347,10 @@ OBJS ?= main.c
 #-isystem. -isystem$(RAYLIB_PATH)/src
 LIBRARIES = $(RAYLIB_PATH)/libraries
 OBJS2 ?= $(wildcard source/files/*c) 
+OBJS2 += $(wildcard settings/*c)
+#toolbox is an entirely new folder not included in this git.
 OBJS2 += $(wildcard $(LIBRARIES)/toolbox/*c)
-CFLAGS += -I$(LIBRARIES)/toolbox/headers -Isource/headers 
+CFLAGS += -I$(LIBRARIES)/toolbox/headers -Isource/headers -Isettings
 
 # character/character.c map/map.c collision/collision.c iLoading/image.c mapData/mapData.c
 
