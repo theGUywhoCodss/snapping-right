@@ -1,7 +1,5 @@
 #include "raylib.h"
 #include "trig.h"
-#include "character.h"
-#include "map.h"
 #include "node.h"
 struct enemy{
     float x;
@@ -31,12 +29,13 @@ void updateEnemy(Vector2 offset);
 bool harmCheck(Rectangle rect,int damage);
 int attackCheck(Rectangle rect);
 void resetEnemies();
-void resetEnemyPathfinding();
 //----------------------------------------------------------------------------------
 // Definitions
 //----------------------------------------------------------------------------------
 //resets enemy path with new character position.
-void resetEnemyPathfinding(){
+void resetEnemyPathfinding(int playerX,int playerY){
+    int posx=playerX;
+    int posy=playerY;
     for(int i=0;i<enemyArrSize;i++){
         if(enemies[i].health>0){
             enemies[i].currentNode=0;
@@ -45,7 +44,7 @@ void resetEnemyPathfinding(){
             for(int x=0;x<10;x++){
                 enemies[i].path[x]=0;
             }
-            runNodes(getNodeXY(enemyx,enemyy),getNodeXY(playerX/100,playerY/100),10,enemies[i].path);
+            runNodes(getNodeXY(enemyx,enemyy),getNodeXY(posx/100,posy/100),10,enemies[i].path);
         }
     }
 }

@@ -4,8 +4,9 @@ void drawMap(Vector2 offset);
 bool collisionRecBlocks(Rectangle rec);
 void loadMap(void);
 void addPing(Vector2 area);
-extern Rectangle blocks[10];
-extern int blockAmount;
-void nodeMapper(Vector2 nodeMapSize);
+Vector2 giveBlockSize();
 Vector2 getRelativeMapSize();
+Vector2 giveSpawnPosition();
+int giveBlocksAmount();
+Rectangle* giveBlocksPntr();
 #endif

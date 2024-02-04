@@ -1,10 +1,6 @@
 #include "raylib.h"
-#include "map.h"
-#include "collision.h"
-#include "lidar.h"
-#include "sound.h"
 #include "texture.h"
-#include "enemy.h"
+#include "sound.h"
 double min(double a, double b) {
     return a<b ? a : b;
 }
@@ -30,11 +26,10 @@ static Vector2 lastNode;
 //----------------------------------------------------------------------------------
 // Local Functions Declaration
 //----------------------------------------------------------------------------------
-static void horizontalC();
-static void verticalC();
+static void horizontalC(Rectangle *blocks,int blockAmount);
+static void verticalC(Rectangle *blocks,int blockAmount);
 void drawCharacter();
 void loadCharacter();
-void ctrlCharacter(Vector2 offset);
 static void verticalC();
 static void horizontalC();
 static Rectangle playerRect();
@@ -45,20 +40,19 @@ void updatePlayerSound(){
    if(change.x>.01||change.x<-.01)soundProperties(0,2);
    else soundProperties(0,0);
 }
-void updatePlayerPathfinding(){
-   if(lastNode.x!=playerX/100||lastNode.y!=playerX/100){
-      resetEnemyPathfinding();
-      lastNode.x=playerX/100;
-      lastNode.y=playerY/100;
-      //nodeSetterXY(getNodeXY(playerX/100,playerY/100),1);
-      //runNodes();
-   }
+bool playerNodeChanged(){
+   if(lastNode.x!=playerX/100||lastNode.y!=playerY/100)return true;
+   else return false;
+}
+void updatePlayerNode(){
+   lastNode.x=playerX/100;
+   lastNode.y=playerY/100;
 }
 void drawCharacter(){
    DrawTexture(getTexture(0),GetScreenWidth()/2-playerWidth/2,GetScreenHeight()/2-playerHeight/2,RAYWHITE);
    //DrawRectangle(GetScreenWidth()/2-playerWidth/2,GetScreenHeight()/2-playerHeight/2,playerWidth,playerHeight,BROWN);
 }
-static void verticalC(){
+static void verticalC(Rectangle *blocks,int blockAmount){
    for(int i=0;i<blockAmount;i++){
          
         colInfo(playerRect(),blocks[i],col);
@@ -75,7 +69,7 @@ static void verticalC(){
 static Rectangle playerRect(){
    return (Rectangle){playerX,playerY,playerWidth,playerHeight};
 }
-static void horizontalC(){
+static void horizontalC(Rectangle *blocks,int blockAmount){
    for(int i=0;i<blockAmount;i++){
       colInfo(playerRect(),blocks[i],col);
       if(col[2]){
@@ -87,7 +81,7 @@ static void horizontalC(){
       }
     }
 }
-void ctrlCharacter(Vector2 offset){
+void ctrlCharacter(Vector2 offset,Rectangle *blocks,int blockAmount){
    Vector2 velo= (Vector2){0,0};
    if(IsKeyDown(KEY_D)){
       velo.x=1;
@@ -115,10 +109,10 @@ void ctrlCharacter(Vector2 offset){
    if(velo.x==0||(velo.x<0&&change.x>0)||(velo.x>0&&change.x<0))change.x*=friction;
    double productx=change.x*playerSpeed*GetFrameTime();
    playerX+=change.x<0?max(-playerSpeed,productx):min(playerSpeed,productx);
-   horizontalC();
+   horizontalC(blocks,blockAmount);
    change.y+=velo.y*jumpSpeed+gravity*GetFrameTime();
    playerY+=change.y;
-   verticalC();
+   verticalC(blocks,blockAmount);
    /*DrawText(TextFormat("%f",change.x<0?max(-playerSpeed,productx):min(playerSpeed,productx)),50,0,10,RED);
    DrawText(TextFormat("%f",change.y),50,10,10,RED);*/
 }

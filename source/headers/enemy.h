@@ -5,6 +5,6 @@ void newEnemy(Vector2 spawnPos);
 bool harmCheck(Rectangle rect,int damage);
 int attackCheck(Rectangle rect);
 void resetEnemies();
-void resetEnemyPathfinding();
+void resetEnemyPathfinding(int playerX,int playerY);
 extern float enemyHealth;
 #endif

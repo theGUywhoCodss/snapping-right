@@ -23,7 +23,6 @@ static Vector2 nodeSize=(Vector2){100,100};
 static Vector2 nodeDrawSize=(Vector2){25,25};
 static int rowSize;
 static int start=10;
-int newNodes[10];
 static int goal=49;
 //----------------------------------------------------------------------------------
 // Local Functions Declaration
@@ -76,9 +75,7 @@ void unaliveNode(int node){
 // Runs nodes to find best path. Returns array.
 int* runNodes(int customStart,int customGoal,int range,int* returnNodes){
     resetNodes();
-    for(int i=0;i<10;i++){
-        newNodes[i]=0;
-    }
+    int newNodes[10]={0};
     start=customStart;
     goal=customGoal;
     int recentNode=-1;

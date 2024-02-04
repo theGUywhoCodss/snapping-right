@@ -1,7 +1,5 @@
 #include "raylib.h"
 #include "trig.h"
-#include "character.h"  
-#include "map.h"
 static Vector2 pointSize=(Vector2){10,10};
 static Vector2 points[50];
 int lidarAmount=50;
@@ -9,13 +7,11 @@ static int currentPoint=0;
 //----------------------------------------------------------------------------------
 // Local Functions Declaration
 //----------------------------------------------------------------------------------
-static bool plotPoint(double angle);
-void newPoint(Vector2 pos,Vector2 clickpos);
-void drawPoints();
+static bool plotPoint(double angle,int playerX,int playerY);
 //----------------------------------------------------------------------------------
 // Definitions
 //----------------------------------------------------------------------------------
-static bool plotPoint(double angle){
+static bool plotPoint(double angle,int playerX,int playerY){
     bool pointFound=false;
     while(!pointFound){
         points[currentPoint].x+=calcCos(1,angle)*GetFrameTime();
@@ -30,10 +26,10 @@ static bool plotPoint(double angle){
     }
     return pointFound;
 }
-void newPoint(Vector2 pos,Vector2 clickpos){
+void newPoint(Vector2 pos,Vector2 clickpos,int playerX,int playerY){
     double angle = angle2Points(pos.x,pos.y,clickpos.x,clickpos.y);
     points[currentPoint]=pos;
-    plotPoint(angle);
+    plotPoint(angle,playerX,playerY);
     currentPoint++;
     if(currentPoint>=lidarAmount){
         currentPoint=0;

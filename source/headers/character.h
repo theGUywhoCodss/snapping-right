@@ -5,7 +5,8 @@ extern double playerY;
 extern int playerWidth;
 extern int playerHeight;
 void drawCharacter();
-void ctrlCharacter(Vector2 offset);
+void ctrlCharacter(Vector2 offset,Rectangle *blocks,int blockAmount);
 void updatePlayerSound();
-void updatePlayerPathfinding();
+void updatePlayerNode();
+bool playerNodeChanged();
 #endif

@@ -15,16 +15,31 @@
 //----------------------------------------------------------------------------------
 // Local Functions Declaration
 //----------------------------------------------------------------------------------
-
+static void nodeMapper(Vector2 nodeMapSize);
 //----------------------------------------------------------------------------------
 // Definitions
 //----------------------------------------------------------------------------------
+
+//Makes unalive nodes for blocks.
+static void nodeMapper(Vector2 nodeMapSize){
+    Rectangle* blocks=giveBlocksPntr();
+    for(int i=0;i<giveBlocksAmount();i++){
+        if(blocks[i].x<nodeMapSize.x&&blocks[i].y<nodeMapSize.y){
+            for(int x=0;x<blocks[i].width/giveBlockSize().x;x++){
+                unaliveNode(getNodeXY((100*x+blocks[i].x)/100,blocks[i].y/100));
+            }
+        }
+    }
+}
 void updateGame(){
     updateMusic();
     Vector2 offset = (Vector2){-playerX+GetScreenWidth()/2-playerWidth/2,-playerY+GetScreenHeight()/2-playerHeight/2};
-    ctrlCharacter(offset);
+    ctrlCharacter(offset,giveBlocksPntr(),giveBlocksAmount());
     updatePlayerSound();
-    updatePlayerPathfinding();
+    if(playerNodeChanged()){
+        resetEnemyPathfinding(playerX,playerY);
+        updatePlayerNode();
+    }
     BeginDrawing();
         ClearBackground(BLACK);
         updateEnemy(offset);
@@ -43,7 +58,7 @@ void loadGame(){
     generateNodes(nodeMapSize);
     nodeMapper(nodeMapSize);
     newEnemy((Vector2){0,0});
-    resetEnemyPathfinding();
+    resetEnemyPathfinding(playerX,playerY);
 }
 void unloadGame(){
     unloadMusic();

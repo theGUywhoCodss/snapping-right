@@ -1,9 +1,6 @@
 #include "raylib.h"
 #include "string.h"
-#include "collision.h"
 #include "mapData.h"
-#include "character.h"
-#include "node.h"
 // nonstatic
 Rectangle blocks[100];
 int blockAmount=100;
@@ -18,12 +15,12 @@ static int loader=0;
 static int blockWidth=100;
 static int blockHeight=100;
 static bool col[4];
+static Vector2 spawnPoint;
 //----------------------------------------------------------------------------------
 // Local Functions Declaration
 //----------------------------------------------------------------------------------
 void loadMap();
 void drawMap(Vector2 offset);
-void nodeMapper(Vector2 nodeMapSize);
 void addPing(Vector2 area);
 Vector2 getRelativeMapSize();
 static void drawPing(Vector2 offset);
@@ -38,16 +35,6 @@ Vector2 getRelativeMapSize(){
         if(blocks[i].y+blocks[i].height>bestSize.y)bestSize.y=blocks[i].y+blocks[i].height;
     }
     return bestSize;
-}
-//Makes unalive nodes for blocks.
-void nodeMapper(Vector2 nodeMapSize){
-    for(int i=0;i<blockAmount;i++){
-        if(blocks[i].x<nodeMapSize.x&&blocks[i].y<nodeMapSize.y){
-            for(int x=0;x<blocks[i].width/blockWidth;x++){
-                unaliveNode(getNodeXY((100*x+blocks[i].x)/100,blocks[i].y/100));
-            }
-        }
-    }
 }
 void loadMap(){
     int loadPos=0;
@@ -81,8 +68,8 @@ void loadMap(){
                 loader++;
                 loadPos++;    
             }else if(map[v][i]=='$'){
-                playerX=blockWidth*i;
-                playerY=v*blockHeight;
+                spawnPoint.x=blockWidth*i;
+                spawnPoint.y=v*blockHeight;
             }
         }
     }
@@ -141,4 +128,16 @@ bool collisionRecBlocks(Rectangle rec){
         }
     }
     return false;
+}
+Rectangle* giveBlocksPntr(){
+    return blocks;
+}
+int giveBlocksAmount(){
+    return blockAmount;
+}
+Vector2 giveBlockSize(){
+    return (Vector2){blockWidth,blockHeight};
+}
+Vector2 giveSpawnPosition(){
+    return spawnPoint;
 }
