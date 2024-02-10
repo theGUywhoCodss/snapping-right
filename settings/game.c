@@ -6,8 +6,8 @@
 #include "lidar.h"
 #include "sound.h"
 #include "texture.h"
-#include "enemy.h"
 #include "node.h"
+#include "enemy.h"
 //----------------------------------------------------------------------------------
 // Local Variables Definition (local to this module)
 //----------------------------------------------------------------------------------
@@ -16,9 +16,15 @@
 // Local Functions Declaration
 //----------------------------------------------------------------------------------
 static void nodeMapper(Vector2 nodeMapSize);
+static void bootNodes(Vector2 nodeMapSize);
 //----------------------------------------------------------------------------------
 // Definitions
 //----------------------------------------------------------------------------------
+
+static void bootNodes(Vector2 nodeMapSize){
+    generateNodes(nodeMapSize);
+    nodeMapper(nodeMapSize);
+}
 
 //Makes unalive nodes for blocks.
 static void nodeMapper(Vector2 nodeMapSize){
@@ -40,6 +46,7 @@ void updateGame(){
         resetEnemyPathfinding(playerX,playerY);
         updatePlayerNode();
     }
+    
     BeginDrawing();
         ClearBackground(BLACK);
         updateEnemy(offset);
@@ -55,8 +62,7 @@ void loadGame(){
     defineSound("resources/footstep.wav",0);
     saveTexture("images/character.png",0,5);
     Vector2 nodeMapSize=getRelativeMapSize();
-    generateNodes(nodeMapSize);
-    nodeMapper(nodeMapSize);
+    bootNodes(nodeMapSize);
     newEnemy((Vector2){0,0});
     resetEnemyPathfinding(playerX,playerY);
 }

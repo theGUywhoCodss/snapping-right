@@ -24,6 +24,7 @@ static Vector2 nodeDrawSize=(Vector2){25,25};
 static int rowSize;
 static int start=10;
 static int goal=49;
+static int tester=0;
 //----------------------------------------------------------------------------------
 // Local Functions Declaration
 //----------------------------------------------------------------------------------
@@ -81,7 +82,7 @@ int* runNodes(int customStart,int customGoal,int range,int* returnNodes){
     int recentNode=-1;
     int count=0;
     nodes[goal].efficient=true;
-    while (recentNode!=goal&&count<100){
+    while (recentNode!=goal&&count<range){
         recentNode=processBestNode();
         count++;
     }

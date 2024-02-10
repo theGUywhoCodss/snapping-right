@@ -1,20 +1,20 @@
 #include "raylib.h"
 #include "string.h"
 #include "mapData.h"
+#include "collision.h"
 // nonstatic
-Rectangle blocks[100];
+Rectangle blocks[100]={{0}};
 int blockAmount=100;
 // static
 static int current=1;
-static bool col[4];
-static Rectangle pingies[3];
+static bool col[4]={0};
+static Rectangle pingies[3]={{0}};
 static int pingSize=200;
-static double pingTime[3];
+static double pingTime[3]={0};
 static float growRate=0.1;
 static int loader=0;
 static int blockWidth=100;
 static int blockHeight=100;
-static bool col[4];
 static Vector2 spawnPoint;
 //----------------------------------------------------------------------------------
 // Local Functions Declaration
@@ -29,10 +29,10 @@ static void drawPing(Vector2 offset);
 //----------------------------------------------------------------------------------
 //Gets the map size with blocks.
 Vector2 getRelativeMapSize(){
-    Vector2 bestSize;
+    Vector2 bestSize={0};
     for(int i=0;i<blockAmount;i++){
-        if(blocks[i].x+blocks[i].width>bestSize.x)bestSize.x=blocks[i].x+blocks[i].width;
-        if(blocks[i].y+blocks[i].height>bestSize.y)bestSize.y=blocks[i].y+blocks[i].height;
+        if(blocks[i].x+blocks[i].width>bestSize.x)bestSize.x=blocks[i].x+blocks[i].width*2;
+        if(blocks[i].y+blocks[i].height>bestSize.y)bestSize.y=blocks[i].y+blocks[i].height*2;
     }
     return bestSize;
 }
@@ -73,6 +73,7 @@ void loadMap(){
             }
         }
     }
+
 }
 void drawMap(Vector2 offset){
     /*

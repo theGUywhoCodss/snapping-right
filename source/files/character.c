@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include "texture.h"
 #include "sound.h"
+#include "map.h"
 double min(double a, double b) {
     return a<b ? a : b;
 }
@@ -21,15 +22,14 @@ static float jumpSpeed=20.0f;
 static bool jumping=true;
 static float friction=0.30f;
 static float accSpeed=0.90f;
-static bool col[4];
-static Vector2 lastNode;
+static bool col[4]={0};
+static Vector2 lastNode={{0}};
 //----------------------------------------------------------------------------------
 // Local Functions Declaration
 //----------------------------------------------------------------------------------
 static void horizontalC(Rectangle *blocks,int blockAmount);
 static void verticalC(Rectangle *blocks,int blockAmount);
 void drawCharacter();
-void loadCharacter();
 static void verticalC();
 static void horizontalC();
 static Rectangle playerRect();
