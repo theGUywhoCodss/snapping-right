@@ -24,7 +24,6 @@ static Vector2 nodeDrawSize=(Vector2){25,25};
 static int rowSize;
 static int start=10;
 static int goal=49;
-static int tester=0;
 //----------------------------------------------------------------------------------
 // Local Functions Declaration
 //----------------------------------------------------------------------------------
@@ -34,7 +33,7 @@ static void closestNodes();
 static int processBestNode();
 static int nodeRequest(int x,int y,int currentNode);
 static void makeProcessed(int currentNode);
-static void drawNodeInformation(int currentNode,Vector2 rect);
+//static void drawNodeInformation(int currentNode,Vector2 rect);
 static void setNodeInformation(int currentNode);
 static Vector2 NodeDistence(int node1,int node2);
 int getNodeXY(int x,int y);
@@ -86,10 +85,11 @@ int* runNodes(int customStart,int customGoal,int range,int* returnNodes){
         recentNode=processBestNode();
         count++;
     }
-    if(count==100)return;
+    if(count==100)return newNodes;
     //get most effient route by tracking back
     recentNode=goal;
-    count=0;
+    newNodes[0]=goal;
+    count=1;
     while (recentNode!=start&&count<range){
         int bestPNode=0;
         int bestG=10000;
@@ -175,12 +175,13 @@ static int processBestNode(){
     makeProcessed(bestNode);
     return bestNode;
 }
+/*
 static void drawNodeInformation(int currentNode,Vector2 rect){
     if(nodes[currentNode].search||nodes[currentNode].processed){
         DrawText(TextFormat("%d",nodes[currentNode].g),rect.x,rect.y,20,BLUE);
         DrawText(TextFormat("%d",nodes[currentNode].h),rect.x,rect.y+20,20,BLUE);
     }
-}
+}*/
 static void setNodeInformation(int currentNode){
     if(nodes[currentNode].search||nodes[currentNode].processed){
         Vector2 startDist=NodeDistence(currentNode,start);

@@ -7,7 +7,6 @@ Rectangle blocks[100]={{0}};
 int blockAmount=100;
 // static
 static int current=1;
-static bool col[4]={0};
 static Rectangle pingies[3]={{0}};
 static int pingSize=200;
 static double pingTime[3]={0};
@@ -39,7 +38,6 @@ Vector2 getRelativeMapSize(){
 void loadMap(){
     int loadPos=0;
     int blockSize=0;
-    int spawnerPos=0;
     char **map=mapList[current];
     for(int v=0;v<mapSize[current];v++){
         for(int i=0;i<strlen(map[v]);i++){

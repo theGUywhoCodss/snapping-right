@@ -42,6 +42,7 @@ void updateGame(){
     Vector2 offset = (Vector2){-playerX+GetScreenWidth()/2-playerWidth/2,-playerY+GetScreenHeight()/2-playerHeight/2};
     ctrlCharacter(offset,giveBlocksPntr(),giveBlocksAmount());
     updatePlayerSound();
+    updateLidar(playerX,playerY,playerWidth,playerHeight,offset);
     if(playerNodeChanged()){
         resetEnemyPathfinding(playerX,playerY);
         updatePlayerNode();

@@ -2,6 +2,7 @@
 #include "texture.h"
 #include "sound.h"
 #include "map.h"
+#include "collision.h"
 double min(double a, double b) {
     return a<b ? a : b;
 }
@@ -23,7 +24,7 @@ static bool jumping=true;
 static float friction=0.30f;
 static float accSpeed=0.90f;
 static bool col[4]={0};
-static Vector2 lastNode={{0}};
+static Vector2 lastNode={0};
 //----------------------------------------------------------------------------------
 // Local Functions Declaration
 //----------------------------------------------------------------------------------
@@ -100,9 +101,6 @@ void ctrlCharacter(Vector2 offset,Rectangle *blocks,int blockAmount){
    }
    if(IsKeyPressed(KEY_P)){
       musicStreamProperties(0);
-   }
-   if(IsMouseButtonDown(MOUSE_BUTTON_LEFT)){
-      newPoint((Vector2){playerX+playerWidth/2,playerY+playerHeight/2},(Vector2){GetMouseX()-offset.x,GetMouseY()-offset.y});
    }
    jumping=true;
    change.x+=velo.x*accSpeed;
