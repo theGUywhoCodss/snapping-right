@@ -1,9 +1,7 @@
-#include <stdio.h>
 #include "raylib.h"
 #include "string.h"
 #include "map.h"
 #include "character.h"
-#include "lidar.h"
 #include "sound.h"
 #include "texture.h"
 #include "node.h"
@@ -42,7 +40,6 @@ void updateGame(){
     Vector2 offset = (Vector2){-playerX+GetScreenWidth()/2-playerWidth/2,-playerY+GetScreenHeight()/2-playerHeight/2};
     ctrlCharacter(offset,giveBlocksPntr(),giveBlocksAmount());
     updatePlayerSound();
-    updateLidar(playerX,playerY,playerWidth,playerHeight,offset);
     if(playerNodeChanged()){
         resetEnemyPathfinding(playerX,playerY);
         updatePlayerNode();
@@ -52,7 +49,6 @@ void updateGame(){
         ClearBackground(BLACK);
         updateEnemy(offset);
         DrawFPS(0,0);
-        drawPoints(offset);
         drawCharacter();
         drawMap(offset);
     EndDrawing();
@@ -61,11 +57,11 @@ void loadGame(){
     loadMap();
     defineMusicStream("resources/jovial.wav");
     defineSound("resources/footstep.wav",0);
-    saveTexture("images/character.png",0,5);
-    Vector2 nodeMapSize=getRelativeMapSize();
-    bootNodes(nodeMapSize);
+    bootNodes(getRelativeMapSize());
     newEnemy((Vector2){0,0});
     resetEnemyPathfinding(playerX,playerY);
+    saveTexture("images/character.png",0,5);
+    saveTexture("images/characterflipped.png",1,5);
 }
 void unloadGame(){
     unloadMusic();

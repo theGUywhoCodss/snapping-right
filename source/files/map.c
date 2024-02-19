@@ -2,6 +2,8 @@
 #include "string.h"
 #include "mapData.h"
 #include "collision.h"
+#include "texture.h"
+#include <stdio.h>
 // nonstatic
 Rectangle blocks[100]={{0}};
 int blockAmount=100;
@@ -34,6 +36,8 @@ Vector2 getRelativeMapSize(){
         if(blocks[i].y+blocks[i].height>bestSize.y)bestSize.y=blocks[i].y+blocks[i].height*2;
     }
     return bestSize;
+
+    printf("\n%d\n",getTexture(0).height);
 }
 void loadMap(){
     int loadPos=0;

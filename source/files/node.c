@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "texture.h"
 //----------------------------------------------------------------------------------
 // Local Variables Definition (local to this module)
 //----------------------------------------------------------------------------------
@@ -85,7 +86,7 @@ int* runNodes(int customStart,int customGoal,int range,int* returnNodes){
         recentNode=processBestNode();
         count++;
     }
-    if(count==100)return newNodes;
+    if(count==100)return;
     //get most effient route by tracking back
     recentNode=goal;
     newNodes[0]=goal;
@@ -119,6 +120,7 @@ int* runNodes(int customStart,int customGoal,int range,int* returnNodes){
     return returnNodes;
 }
 void generateNodes(Vector2 scrDimensions){
+    
     int currentNode=0;
     rowSize=scrDimensions.x/nodeSize.x;
     for(int u=0;u<scrDimensions.y/nodeSize.y;u++){
