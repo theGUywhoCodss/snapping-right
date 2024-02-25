@@ -8,7 +8,7 @@
 Rectangle blocks[100]={{0}};
 int blockAmount=100;
 // static
-static int current=1;
+static int current=2;
 static Rectangle pingies[3]={{0}};
 static int pingSize=200;
 static double pingTime[3]={0};
@@ -16,7 +16,8 @@ static float growRate=0.1;
 static int loader=0;
 static int blockWidth=100;
 static int blockHeight=100;
-static Vector2 spawnPoint;
+static Vector2 spawnPoint={0};
+static Vector2 EnemySpawnPoint={0};
 //----------------------------------------------------------------------------------
 // Local Functions Declaration
 //----------------------------------------------------------------------------------
@@ -72,6 +73,9 @@ void loadMap(){
             }else if(map[v][i]=='$'){
                 spawnPoint.x=blockWidth*i;
                 spawnPoint.y=v*blockHeight;
+            }else if(map[v][i]=='!'){
+                EnemySpawnPoint.x=blockWidth*i;
+                EnemySpawnPoint.y=v*blockHeight;
             }
         }
     }
@@ -143,4 +147,7 @@ Vector2 giveBlockSize(){
 }
 Vector2 giveSpawnPosition(){
     return spawnPoint;
+}
+Vector2 giveEnemySpawnPosition(){
+    return EnemySpawnPoint;
 }

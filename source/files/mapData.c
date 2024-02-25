@@ -1,5 +1,6 @@
 // Map sizes
-int mapSize[]={4,13};
+int mapSize[]={4,13,3};
+int mapAmount=2;
 // All map data stored here.
 static char *map0[]={
 "##################0",
@@ -22,4 +23,9 @@ static char *map1[]={
 "",
 "##########0"
 };
-char **mapList[]={map0,map1};
+static char *map2[]={
+"#####0",
+"#!0     $0",
+"#####00###0"
+};
+char **mapList[]={map0,map1,map2};

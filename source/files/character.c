@@ -51,10 +51,8 @@ void updatePlayerNode(){
 }
 void drawCharacter(){
    if(change.x<0){
-      Texture mage=getTexture(1);
       DrawTexture(getTexture(1),GetScreenWidth()/2-playerWidth/2,GetScreenHeight()/2-playerHeight/2,RAYWHITE);
    }else{
-      Texture mage=getTexture(0);
       DrawTexture(getTexture(0),GetScreenWidth()/2-playerWidth/2,GetScreenHeight()/2-playerHeight/2,RAYWHITE);
    }
    //DrawRectangle(GetScreenWidth()/2-playerWidth/2,GetScreenHeight()/2-playerHeight/2,playerWidth,playerHeight,BROWN);

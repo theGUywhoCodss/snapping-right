@@ -157,7 +157,7 @@ void drawNodes(Vector2 offset){
 static int processBestNode(){
     int bestNode=-1;
     int bestScore=10000;
-    Vector2 bestInfo;
+    Vector2 bestInfo={0};
     for(int i=0;i<nodesInit;i++){
         if(nodes[i].search&&nodes[i].alive){
             int calc=nodes[i].g+nodes[i].h;

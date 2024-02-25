@@ -58,10 +58,14 @@ void loadGame(){
     defineMusicStream("resources/jovial.wav");
     defineSound("resources/footstep.wav",0);
     bootNodes(getRelativeMapSize());
-    newEnemy((Vector2){0,0});
-    resetEnemyPathfinding(playerX,playerY);
     saveTexture("images/character.png",0,5);
     saveTexture("images/characterflipped.png",1,5);
+    Vector2 pnt=giveSpawnPosition();
+    playerX=pnt.x;
+    playerY=pnt.y;
+    pnt=giveEnemySpawnPosition();
+    newEnemy(pnt);
+    resetEnemyPathfinding(playerX,playerY);
 }
 void unloadGame(){
     unloadMusic();

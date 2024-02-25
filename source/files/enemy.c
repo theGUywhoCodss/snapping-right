@@ -28,7 +28,6 @@ void newEnemy(Vector2 spawnPos);
 void updateEnemy(Vector2 offset);
 bool harmCheck(Rectangle rect,int damage);
 int attackCheck(Rectangle rect);
-void resetEnemies();
 //----------------------------------------------------------------------------------
 // Definitions
 //----------------------------------------------------------------------------------
@@ -51,9 +50,11 @@ void resetEnemyPathfinding(int playerX,int playerY){
 static Rectangle enemyRect(int pos){
     return (Rectangle){enemies[pos].x,enemies[pos].y,enemySize.x,enemySize.y};
 }
-void resetEnemies(){
+void resetEnemies(Vector2 spawnpos){
     for(int i=0;i<enemyArrSize;i++){
         enemies[i].health=0;
+        enemies[i].x=spawnpos.x;
+        enemies[i].y=spawnpos.y;
     }
 }
 void updateEnemy(Vector2 offset){

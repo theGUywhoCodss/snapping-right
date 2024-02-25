@@ -7,6 +7,7 @@ void addPing(Vector2 area);
 Vector2 giveBlockSize();
 Vector2 getRelativeMapSize();
 Vector2 giveSpawnPosition();
+Vector2 giveEnemySpawnPosition();
 int giveBlocksAmount();
 Rectangle* giveBlocksPntr();
 #endif
