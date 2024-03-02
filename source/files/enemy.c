@@ -43,7 +43,8 @@ void resetEnemyPathfinding(int playerX,int playerY){
             for(int x=0;x<10;x++){
                 enemies[i].path[x]=0;
             }
-            runNodes(getNodeXY(enemyx,enemyy),getNodeXY(posx/100,posy/100),10,enemies[i].path);
+            if(getNodeXY(posx/100,posy/100)>0&&getNodeXY(posx/100,posy/100)<nodesInit)
+                runNodes(getNodeXY(enemyx,enemyy),getNodeXY(posx/100,posy/100),10,enemies[i].path);
         }
     }
 }

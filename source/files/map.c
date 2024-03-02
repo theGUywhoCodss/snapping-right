@@ -8,7 +8,7 @@
 Rectangle blocks[100]={{0}};
 int blockAmount=100;
 // static
-static int current=2;
+static int current=1;
 static Rectangle pingies[3]={{0}};
 static int pingSize=200;
 static double pingTime[3]={0};

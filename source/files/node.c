@@ -19,7 +19,7 @@ struct node
 
 static struct node nodes[100];
 static int nodeArrSize=100;
-static int nodesInit=0;
+int nodesInit=0;
 static Vector2 nodeSize=(Vector2){100,100};
 static Vector2 nodeDrawSize=(Vector2){25,25};
 static int rowSize;
@@ -86,7 +86,7 @@ int* runNodes(int customStart,int customGoal,int range,int* returnNodes){
         recentNode=processBestNode();
         count++;
     }
-    if(count==100)return;
+    if(count==100)return NULL;
     //get most effient route by tracking back
     recentNode=goal;
     newNodes[0]=goal;

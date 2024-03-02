@@ -4,3 +4,9 @@ movement.odg
 resources/plan2.xcf
 mapDesign.xcf
 level select.xcf
+game.wasm
+game.js
+game.html
+game.data
+game.zip
+.gitignore

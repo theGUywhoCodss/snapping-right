@@ -1,6 +1,6 @@
 #include "raylib.h"
-#include "texture.h"
-#include "sound.h"
+//#include "texture.h"
+//#include "sound.h"
 #include "map.h"
 #include "collision.h"
 double min(double a, double b) {
@@ -37,10 +37,10 @@ static Rectangle playerRect();
 //----------------------------------------------------------------------------------
 // Definitions
 //----------------------------------------------------------------------------------
-void updatePlayerSound(){
+/*void updatePlayerSound(){
    if(change.x>.01||change.x<-.01)soundProperties(0,2);
    else soundProperties(0,0);
-}
+}*/
 bool playerNodeChanged(){
    if(lastNode.x!=playerX/100||lastNode.y!=playerY/100)return true;
    else return false;
@@ -50,12 +50,12 @@ void updatePlayerNode(){
    lastNode.y=playerY/100;
 }
 void drawCharacter(){
-   if(change.x<0){
+   /*if(change.x<0){
       DrawTexture(getTexture(1),GetScreenWidth()/2-playerWidth/2,GetScreenHeight()/2-playerHeight/2,RAYWHITE);
    }else{
       DrawTexture(getTexture(0),GetScreenWidth()/2-playerWidth/2,GetScreenHeight()/2-playerHeight/2,RAYWHITE);
-   }
-   //DrawRectangle(GetScreenWidth()/2-playerWidth/2,GetScreenHeight()/2-playerHeight/2,playerWidth,playerHeight,BROWN);
+   }*/
+   DrawRectangle(GetScreenWidth()/2-playerWidth/2,GetScreenHeight()/2-playerHeight/2,playerWidth,playerHeight,BROWN);
 }
 static void verticalC(Rectangle *blocks,int blockAmount){
    for(int i=0;i<blockAmount;i++){
@@ -104,7 +104,7 @@ void ctrlCharacter(Vector2 offset,Rectangle *blocks,int blockAmount){
       addPing((Vector2){playerX+playerWidth/2,playerY+playerHeight/2});
    }
    if(IsKeyPressed(KEY_P)){
-      musicStreamProperties(0);
+      //musicStreamProperties(0);
    }
    jumping=true;
    change.x+=velo.x*accSpeed;

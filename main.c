@@ -42,7 +42,7 @@ int main()
     const int screenWidth = 1000;
     const int screenHeight = 800;
     InitWindow(screenWidth, screenHeight, "Snapping Right");
-    InitAudioDevice();
+    //InitAudioDevice();
     loadGame();
     //--------------------------------------------------------------------------------------
 #if defined(PLATFORM_WEB)
@@ -61,7 +61,7 @@ int main()
     // De-Initialization
     //--------------------------------------------------------------------------------------
     unloadGame();
-    CloseAudioDevice();         // Close audio device (music streaming is automatically stopped)
+    //CloseAudioDevice();         // Close audio device (music streaming is automatically stopped)
     CloseWindow();                  // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
     return 0;

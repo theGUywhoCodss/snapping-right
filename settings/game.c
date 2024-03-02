@@ -2,10 +2,11 @@
 #include "string.h"
 #include "map.h"
 #include "character.h"
-#include "sound.h"
-#include "texture.h"
+//#include "texture.h"
+//#include "sound.h"
 #include "node.h"
 #include "enemy.h"
+#include <stdio.h>
 //----------------------------------------------------------------------------------
 // Local Variables Definition (local to this module)
 //----------------------------------------------------------------------------------
@@ -36,10 +37,10 @@ static void nodeMapper(Vector2 nodeMapSize){
     }
 }
 void updateGame(){
-    updateMusic();
+    //updateMusic();
     Vector2 offset = (Vector2){-playerX+GetScreenWidth()/2-playerWidth/2,-playerY+GetScreenHeight()/2-playerHeight/2};
     ctrlCharacter(offset,giveBlocksPntr(),giveBlocksAmount());
-    updatePlayerSound();
+    //updatePlayerSound();
     if(playerNodeChanged()){
         resetEnemyPathfinding(playerX,playerY);
         updatePlayerNode();
@@ -55,11 +56,11 @@ void updateGame(){
 }
 void loadGame(){
     loadMap();
-    defineMusicStream("resources/jovial.wav");
-    defineSound("resources/footstep.wav",0);
+    //defineMusicStream("resources/jovial.wav");
+    //defineSound("resources/footstep.wav",0);
     bootNodes(getRelativeMapSize());
-    saveTexture("images/character.png",0,5);
-    saveTexture("images/characterflipped.png",1,5);
+    //saveTexture("images/character.png",0,5);
+    //saveTexture("images/characterflipped.png",1,5);
     Vector2 pnt=giveSpawnPosition();
     playerX=pnt.x;
     playerY=pnt.y;
@@ -68,7 +69,7 @@ void loadGame(){
     resetEnemyPathfinding(playerX,playerY);
 }
 void unloadGame(){
-    unloadMusic();
-    unloadSounds();
-    unloadAllTextures();
+    //unloadMusic();
+    //unloadSounds();
+    //unloadAllTextures();
 }
